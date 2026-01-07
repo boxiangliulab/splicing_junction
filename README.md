@@ -265,7 +265,7 @@ Please also refer to Section "Running, monitoring and debugging Nextflow pipelin
 ## Citation
 
 Nextflow:
-[Di Tommaso, P., Chatzou, M., Floden, E. et al. Nextflow enables reproducible computational workflows. Nat Biotechnol 35, 316–319 (2017). https://doi.org/10.1038/nbt.3820]((https://www.nature.com/articles/nbt.3820)
+[Di Tommaso, P., Chatzou, M., Floden, E. et al. Nextflow enables reproducible computational workflows. Nat Biotechnol 35, 316–319 (2017). https://doi.org/10.1038/nbt.3820](https://www.nature.com/articles/nbt.3820)
 
 RSeQC: 
 [Wang L, Wang S, Li W. RSeQC: quality control of RNA-seq experiments. Bioinformatics. 2012 Aug 15;28(16):2184-5. doi: 10.1093/bioinformatics/bts356. Epub 2012 Jun 27. PMID: 22743226.](https://academic.oup.com/bioinformatics/article/28/16/2184/325191?login=false)
