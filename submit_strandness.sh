@@ -6,6 +6,9 @@
 #PBS -j oe
 #PBS -o prepare/strandness.log
 
+# Please include make sure squashfs can be used 
+#module load squashfs/4.4
+
 cd "$PBS_O_WORKDIR"
 mkdir -p prepare
 
