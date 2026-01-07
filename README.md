@@ -111,35 +111,38 @@ Extract them in the current directory.
 tar -xzvf eQTLGen_splicing_junction_v1.tar.gz
 ```
 
-You should be able to see two folders: data and singularity_img. 
+You should be able to see two folders: data and singularity_img. Below is the full content by far: 
 
 ```
-1_splicing_junction/
-├── data
-│   ├── gencode.v19.annotation.bed12
-│   └── gencode.v48.annotation.bed12
-├── eQTLGen_splicing_junction_v1.tar.gz
-├── eQTLGen_splicing_junction_v1.tar.gz.md5
-├── output
-├── singularity_img
-│   ├── eqtlgen_splicing_junction_strandness.sif
-│   └── eqtlgen_splicing_junction_v1.sif
-└── splicing_junction
-    ├── conf
-    │   ├── base.config
-    │   ├── Danish_Computerome_profile.config
-    │   ├── JCTF_profile.config
-    │   ├── local_vm.config
-    │   ├── lsf_per_core.config
-    │   ├── lsf_per_job.config
-    │   ├── NSCC_profile.config
-    │   ├── pbs.config
-    │   ├── sge.config
-    │   └── slurm.config
-    ├── nextflow.config
-    ├── README.md
-    ├── submit_splicing_junction_pipeline_template.sh
-    └── submit_strandness.sh
+|-- 1_splicing_junction
+|   |-- data
+|   |   |-- gencode.v19.annotation.bed12
+|   |   `-- gencode.v48.annotation.bed12
+|   |-- eQTLGen_splicing_junction_v1.tar.gz
+|   |-- eQTLGen_splicing_junction_v1.tar.gz.md5
+|   |-- output
+|   |-- singularity_img
+|   |   |-- eqtlgen_splicing_junction_strandness.sif
+|   |   `-- eqtlgen_splicing_junction_v1.sif
+|   `-- splicing_junction
+|       |-- README.md
+|       |-- conf
+|       |   |-- Danish_Computerome_profile.config
+|       |   |-- JCTF_profile.config
+|       |   |-- NSCC_profile.config
+|       |   |-- base.config
+|       |   |-- local_vm.config
+|       |   |-- lsf_per_core.config
+|       |   |-- lsf_per_job.config
+|       |   |-- pbs.config
+|       |   |-- sge.config
+|       |   `-- slurm.config
+|       |-- nextflow.config
+|       |-- splicing_junction.nf
+|       |-- submit_splicing_junction_pipeline_template.sh
+|       `-- submit_strandness.sh
+`-- tools
+    `-- nextflow
 ```
 
 Enter the main work directory, and prepare to run the pipelines.  
