@@ -12,32 +12,14 @@ For this cookbook, we follow the style of [eQTLGen Phase II cookbook](https://eq
 
 ## Prerequisites
 
-If you have run the workflow in eQTLGen Phase II cookbook, you should have all the following prerequisites. 
+If you have run the workflow in eQTLGen Phase II cookbook, you should have all the following prerequisites. However, the current pipelines and configurations are tailored for use with the **PBS scheduler**. If your HPC uses a different scheduler, modify the job script **headers** to request the appropriate resources accordingly.
 
-### 1. High-Performance Computing (HPC) environment
 
-You will need access to an HPC system with:
-- Multiple CPU cores 
-- A job scheduling system (PBS/Slurm/LSF/SGE)
-- A UNIX/Linux operating system with Bash >=3.2 and Java >=11 (for Nextflow). 
+- High-Performance Computing (HPC) environment
+  
+- Singularity
 
-The current pipelines and configurations are tailored for use with the **PBS scheduler**. If your HPC uses a different scheduler, modify the job script **headers** to request the appropriate resources accordingly.
-
----
-
-### 2. Singularity
-
-Singularity is required to run the workflow containers. 
-
-We assume that Singularity is already installed on your system. This may depend on a few extra modules, like SquashFS, as described in the [eQTLGen Phase II cookbook](https://eqtlgen.github.io/eqtlgen-web-site/eQTLGen-p2-cookbook.html). 
-
----
-
-### 3. Nextflow 
-
-We originally used Snakemake as our pipeline management tool, but we adapted the pipeline to Nextflow for easier deployment. If you encounter trouble in Nextflow and want a snakemake workflow (Python-based) instead, please let us know. 
-
-Similarly, we expect Nextflow to be available on your server. If it is not installed, please download and install the Nextflow executable following the [instructions](https://eqtlgen.github.io/eqtlgen-web-site/eQTLGen-p2-offline-instructions.html) provided by eQTLGen. This pipeline was tested using Nextflow v25.04.6.
+- Nextflow 
 
 
 
