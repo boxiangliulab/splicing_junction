@@ -39,7 +39,7 @@ Inside this folder make another folder for Nextflow executable, called tools. Th
 mkdir eQTLGen_splicing_phase1/tools
 ```
 
-Inside eQTLGen_phase2/tools download and self-install Nextflow executable, as specified [here](https://www.nextflow.io/docs/latest/install.html#installation). You might need to load Java >=11 before running self-install (e.g. module load [Java >=11 module name in your HPC]).
+Inside eQTLGen_phase2/tools download and self-install Nextflow executable. You might need to load Java >=11 before running self-install (e.g. module load [Java >=11 module name in your HPC]).
 
 ```
 cd eQTLGen_splicing_phase1/tools
