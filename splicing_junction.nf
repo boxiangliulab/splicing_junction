@@ -150,8 +150,13 @@ process FILTER_UNIQ_BAM {
     exit 1
   fi
 
-  if [ "\$qc" = "ALL_UNIQ" ]; then
+  if [ "$qc" = "ALL_UNIQ" ]; then
     ln -sfn ${bam} ${sample}.uniq.bam
+    if [ -f ${bam}.bai ]; then
+      ln -sfn ${bam}.bai ${sample}.uniq.bam.bai
+    else
+      samtools index ${sample}.uniq.bam
+    fi
   else
     # Keep mapped alignments with NH:i:1 (no MAPQ logic)
     samtools view -h -F 4 ${bam} \\
@@ -165,9 +170,9 @@ process FILTER_UNIQ_BAM {
           if(nh=="1") print
         }' \\
     | samtools view -b -o ${sample}.uniq.bam -
+    samtools index ${sample}.uniq.bam
   fi
 
-  samtools index ${sample}.uniq.bam
   """
 }
 
