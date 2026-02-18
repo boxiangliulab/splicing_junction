@@ -12,32 +12,14 @@ For this cookbook, we follow the style of [eQTLGen Phase II cookbook](https://eq
 
 ## Prerequisites
 
-If you have run the workflow in eQTLGen Phase II cookbook, you should have all the following prerequisites. 
+If you have run the workflow in eQTLGen Phase II cookbook, you should have all the following prerequisites. However, the current pipelines and configurations are tailored for use with the **PBS scheduler**. If your HPC uses a different scheduler, modify the job script **headers** to request the appropriate resources accordingly.
 
-### 1. High-Performance Computing (HPC) environment
 
-You will need access to an HPC system with:
-- Multiple CPU cores 
-- A job scheduling system (PBS/Slurm/LSF/SGE)
-- A UNIX/Linux operating system with Bash >=3.2 and Java >=11 (for Nextflow). 
+- High-Performance Computing (HPC) environment
+  
+- Singularity
 
-The current pipelines and configurations are tailored for use with the **PBS scheduler**. If your HPC uses a different scheduler, modify the job script **headers** to request the appropriate resources accordingly.
-
----
-
-### 2. Singularity
-
-Singularity is required to run the workflow containers. 
-
-We assume that Singularity is already installed on your system. This may depend on a few extra modules, like SquashFS, as described in the [eQTLGen Phase II cookbook](https://eqtlgen.github.io/eqtlgen-web-site/eQTLGen-p2-cookbook.html). 
-
----
-
-### 3. Nextflow 
-
-We originally used Snakemake as our pipeline management tool, but we adapted the pipeline to Nextflow for easier deployment. If you encounter trouble in Nextflow and want a snakemake workflow (Python-based) instead, please let us know. 
-
-Similarly, we expect Nextflow to be available on your server. If it is not installed, please download and install the Nextflow executable following the [instructions](https://eqtlgen.github.io/eqtlgen-web-site/eQTLGen-p2-offline-instructions.html) provided by eQTLGen. This pipeline was tested using Nextflow v25.04.6.
+- Nextflow 
 
 
 
@@ -57,7 +39,7 @@ Inside this folder make another folder for Nextflow executable, called tools. Th
 mkdir eQTLGen_splicing_phase1/tools
 ```
 
-Inside eQTLGen_phase2/tools download and self-install Nextflow executable, as specified [here](https://www.nextflow.io/docs/latest/install.html#installation). You might need to load Java >=11 before running self-install (e.g. module load [Java >=11 module name in your HPC]).
+Inside eQTLGen_phase2/tools download and self-install Nextflow executable. You might need to load Java >=11 before running self-install (e.g. module load [Java >=11 module name in your HPC]).
 
 ```
 cd eQTLGen_splicing_phase1/tools
@@ -111,35 +93,38 @@ Extract them in the current directory.
 tar -xzvf eQTLGen_splicing_junction_v1.tar.gz
 ```
 
-You should be able to see two folders: data and singularity_img. 
+You should be able to see two folders: data and singularity_img. Below is the full content by far: 
 
 ```
-1_splicing_junction/
-├── data
-│   ├── gencode.v19.annotation.bed12
-│   └── gencode.v48.annotation.bed12
-├── eQTLGen_splicing_junction_v1.tar.gz
-├── eQTLGen_splicing_junction_v1.tar.gz.md5
-├── output
-├── singularity_img
-│   ├── eqtlgen_splicing_junction_strandness.sif
-│   └── eqtlgen_splicing_junction_v1.sif
-└── splicing_junction
-    ├── conf
-    │   ├── base.config
-    │   ├── Danish_Computerome_profile.config
-    │   ├── JCTF_profile.config
-    │   ├── local_vm.config
-    │   ├── lsf_per_core.config
-    │   ├── lsf_per_job.config
-    │   ├── NSCC_profile.config
-    │   ├── pbs.config
-    │   ├── sge.config
-    │   └── slurm.config
-    ├── nextflow.config
-    ├── README.md
-    ├── submit_splicing_junction_pipeline_template.sh
-    └── submit_strandness.sh
+|-- 1_splicing_junction
+|   |-- data
+|   |   |-- gencode.v19.annotation.bed12
+|   |   `-- gencode.v48.annotation.bed12
+|   |-- eQTLGen_splicing_junction_v1.tar.gz
+|   |-- eQTLGen_splicing_junction_v1.tar.gz.md5
+|   |-- output
+|   |-- singularity_img
+|   |   |-- eqtlgen_splicing_junction_strandness.sif
+|   |   `-- eqtlgen_splicing_junction_v1.sif
+|   `-- splicing_junction
+|       |-- README.md
+|       |-- conf
+|       |   |-- Danish_Computerome_profile.config
+|       |   |-- JCTF_profile.config
+|       |   |-- NSCC_profile.config
+|       |   |-- base.config
+|       |   |-- local_vm.config
+|       |   |-- lsf_per_core.config
+|       |   |-- lsf_per_job.config
+|       |   |-- pbs.config
+|       |   |-- sge.config
+|       |   `-- slurm.config
+|       |-- nextflow.config
+|       |-- splicing_junction.nf
+|       |-- submit_splicing_junction_pipeline_template.sh
+|       `-- submit_strandness.sh
+`-- tools
+    `-- nextflow
 ```
 
 Enter the main work directory, and prepare to run the pipelines.  
