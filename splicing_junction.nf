@@ -150,7 +150,7 @@ process FILTER_UNIQ_BAM {
     exit 1
   fi
 
-  if [ "$qc" = "ALL_UNIQ" ]; then
+  if [ "\$qc" = "ALL_UNIQ" ]; then
     ln -sfn ${bam} ${sample}.uniq.bam
     if [ -f ${bam}.bai ]; then
       ln -sfn ${bam}.bai ${sample}.uniq.bam.bai
