@@ -190,7 +190,9 @@ modify the job file submit_splicing_junction_pipeline_[cohort name].sh in the ma
 
 2. cohort name. 
 
-3. strand parameter based on the results above. 
+3. strand parameter based on the results above.
+
+4. -profile in the Nextflow command (at the bottom of the script) and corresponding config file. 
 
 Now you are ready to go! 
 
