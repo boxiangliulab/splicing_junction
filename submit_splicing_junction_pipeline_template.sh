@@ -35,6 +35,7 @@ conda activate nf
 # =========================================================
 nextflow_path=../../tools                                        # folder where Nextflow executable is
 container_path=../singularity_img/eqtlgen_splicing_junction_v2.sif  # junction analysis container (regtools + leafcutter + python)
+STAR_CONTAINER=../singularity_img/eqtlgen_splicing_star_v1.sif 
 
 cohort_name=[your cohort name]
 strand=[strandness: XS (unstranded) / RF (reverse stranded) / FR (forward stranded)]
@@ -78,7 +79,6 @@ output_path=../output
 #   - Determine strandness if unknown (using submit_strandness.sh)
 
 # FASTQ_DIR=[path to directory containing paired-end FASTQ files]
-# STAR_CONTAINER=[path to STAR container .sif, e.g. ../singularity_img/eqtlgen_star_v1.sif]
 # READ_LENGTH=[read length, e.g. 150 for PE150]  # sjdbOverhang = READ_LENGTH - 1
 # BAM_OUTPUT_DIR=../output/bam_alignment  # intermediate BAM output directory
 
