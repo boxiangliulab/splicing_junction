@@ -235,12 +235,14 @@ output/
 ├── 01_junc
 |   |-- {sample_name}.junc
 |   `-- ... .junc
-`-- 02_cluster
-    `-- {cohort_name}_cluster_perind_numers.counts.gz
+|-- 02_cluster
+|   `-- {cohort_name}_cluster_perind_numers.counts.gz
+`-- 03_summary_stats
+    `-- {cohort_name}_summary_stats.tsv
 ```
 
 Send output file to central analysis for joint junction quality control & filtering: 
-Please upload {cohort_name}_cluster_perind_numers.counts.gz via your preferred file-sharing service (e.g., Dropbox/Globus) and share with us the link. 
+Please upload {cohort_name}_cluster_perind_numers.counts.gz (donor-level) or {cohort_name}_summary_stats.tsv via your preferred file-sharing service (e.g., Dropbox/Globus) and share with us the link. 
 
 Please also submit relevant metadata (if available) of your cohort. For example, ancestry, sex and age can be included. This can be a table in either csv/tsv or txt format. 
 
