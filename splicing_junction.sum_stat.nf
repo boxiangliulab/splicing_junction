@@ -265,7 +265,7 @@ process COMPUTE_SUMMARY_STATS {
       # Prepare output
       with open('${cohort_name}_summary_stats.tsv', 'w') as out:
           # Write header
-          out.write('junction_id\\tjunction_coord\\tmissingness\\ttotal_counts\\tmean_count\\tstd_count\\tcohort\\n')
+          out.write('junction_id\\tjunction_coord\\tmissingness\\ttotal_counts\\tmean_count\\tstd_count\\tmedian_count\\tmin_count\\tmax_count\\tcohort\\n')
 
           # Process each junction
           for line in f:
@@ -289,17 +289,17 @@ process COMPUTE_SUMMARY_STATS {
               mean_count = np.mean(counts)
               std_count = np.std(counts, ddof=1)  # Sample standard deviation
 
-	      # New Statistics
+              # New Statistics
               median_count = np.median(counts)
               min_count    = np.min(counts)
               max_count    = np.max(counts)
 
-	      # Calculate missingness (fraction of samples with zero counts)
+              # Calculate missingness (fraction of samples with zero counts)
               n_zero = np.sum(counts == 0)
               missingness = n_zero / n_samples
 
               # Write output
-	      out.write(f"{junction_id}\\t{junction_coord}\\t{missingness}\\t{total_counts}\\t{mean_count:.6f}\\t{std_count:.6f}\\t{median_count:.6f}\\t{min_count:.6f}\\t{max_count:.6f}\\t${cohort_name}\\n")
+              out.write(f"{junction_id}\\t{junction_coord}\\t{missingness}\\t{total_counts}\\t{mean_count:.6f}\\t{std_count:.6f}\\t{median_count:.6f}\\t{min_count:.6f}\\t{max_count:.6f}\\t${cohort_name}\\n")
 
   print(f"Summary statistics computed successfully for ${cohort_name}", file=sys.stderr)
   """
