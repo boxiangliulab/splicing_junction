@@ -2,7 +2,7 @@
 #PBS -P 11003054
 #PBS -l select=1:ncpus=1:mem=8gb
 #PBS -l walltime=02:00:00
-#PBS -N sQTLGen_strandness
+#PBS -N eQTLGen_splicing_strandness
 #PBS -j oe
 #PBS -o prepare/strandness.log
 
@@ -17,21 +17,13 @@ mkdir -p prepare
 # ----------------------------
 ROOT=$PWD/..
 SIF=${ROOT}/singularity_img/eqtlgen_splicing_junction_strandness.sif
-BAM_DIR=[your BAM file directory]
-
 BED=${ROOT}/data/gencode.v48.annotation.bed12
 
-# if you are using hg19, please use the bed below
-#BED=${ROOT}/data/gencode.v19.annotation.bed12
+# If you run the star alignment pipeline, use the default output folder 
+BAM_DIR=${BAM_OUTPUT_DIR}/aligned_bam
+# Otherwise, specify your BAM file directory
+#BAM_DIR=[your BAM file directory]
 
-echo "[INFO] Host: $(hostname)"
-echo "[INFO] PWD:  $(pwd)"
-echo "[INFO] ROOT: ${ROOT}"
-echo "[INFO] SIF:  ${SIF}"
-echo "[INFO] BAM_DIR: ${BAM_DIR}"
-echo "[INFO] BED: ${BED}"
-echo "[INFO] Date: $(date)"
-echo ""
 
 # ----------------------------
 # Select representative BAMs

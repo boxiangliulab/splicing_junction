@@ -181,6 +181,109 @@ process STAR_ALIGN {
   """
 }
 
+process GENERATE_QC_REPORT {
+  tag "QC_summary"
+  publishDir "${outdir}", mode: 'copy', overwrite: true
+
+  container star_cont
+  cpus 2
+  memory "32 GB"
+
+  input:
+    path logs
+
+  output:
+    path "star_alignment_qc_summary.tsv"
+
+  script:
+  """
+  #!/usr/bin/env python3
+  import re
+  from pathlib import Path
+
+  # Metrics to extract from STAR Log.final.out
+  metrics = [
+      ('Number of input reads', 'input_reads'),
+      ('Uniquely mapped reads number', 'uniquely_mapped'),
+      ('Uniquely mapped reads %', 'uniquely_mapped_pct'),
+      ('Number of reads mapped to multiple loci', 'multi_mapped'),
+      ('% of reads mapped to multiple loci', 'multi_mapped_pct'),
+      ('Number of reads mapped to too many loci', 'too_many_loci'),
+      ('% of reads mapped to too many loci', 'too_many_loci_pct'),
+      ('% of reads unmapped: too many mismatches', 'unmapped_mismatches_pct'),
+      ('% of reads unmapped: too short', 'unmapped_too_short_pct'),
+      ('% of reads unmapped: other', 'unmapped_other_pct'),
+      ('Average mapped length', 'avg_mapped_length'),
+      ('Mismatch rate per base, %', 'mismatch_rate_pct'),
+      ('Deletion rate per base', 'deletion_rate'),
+      ('Insertion rate per base', 'insertion_rate'),
+      ('Number of splices: Total', 'total_splices'),
+      ('Number of splices: Annotated (sjdb)', 'annotated_splices'),
+      ('Number of splices: GT/AG', 'GT_AG_splices'),
+      ('Number of splices: GC/AG', 'GC_AG_splices'),
+      ('Number of splices: AT/AC', 'AT_AC_splices'),
+      ('Number of splices: Non-canonical', 'non_canonical_splices'),
+      ('% of reads mapped to multiple loci', 'chimeric_reads_pct'),
+  ]
+
+  # Parse all log files
+  data = []
+  log_files = list(Path('.').glob('*.Log.final.out'))
+
+  for log_file in sorted(log_files):
+      sample = log_file.name.replace('.Log.final.out', '')
+      sample_data = {'sample': sample}
+
+      with open(log_file) as f:
+          content = f.read()
+
+      for metric_name, metric_key in metrics:
+          pattern = re.escape(metric_name) + r'\\s*\\|\\s*([\\d.]+)%?'
+          match = re.search(pattern, content)
+          if match:
+              value = match.group(1)
+              sample_data[metric_key] = value
+          else:
+              sample_data[metric_key] = 'NA'
+
+      # Add QC flags
+      try:
+          uniq_pct = float(sample_data.get('uniquely_mapped_pct', '0').rstrip('%'))
+          multi_pct = float(sample_data.get('multi_mapped_pct', '0').rstrip('%'))
+          total_mapped_pct = uniq_pct + multi_pct
+
+          qc_flag = 'PASS'
+          if uniq_pct < 70:
+              qc_flag = 'WARNING_LOW_UNIQUE'
+          if total_mapped_pct < 80:
+              qc_flag = 'FAIL_LOW_MAPPED'
+
+          sample_data['total_mapped_pct'] = f'{total_mapped_pct:.2f}'
+          sample_data['qc_flag'] = qc_flag
+      except:
+          sample_data['total_mapped_pct'] = 'NA'
+          sample_data['qc_flag'] = 'ERROR'
+
+      data.append(sample_data)
+
+  # Write TSV
+  if data:
+      headers = ['sample'] + [m[1] for m in metrics] + ['total_mapped_pct', 'qc_flag']
+
+      with open('star_alignment_qc_summary.tsv', 'w') as out:
+          out.write('\\t'.join(headers) + '\\n')
+          for sample_data in data:
+              row = [sample_data.get(h, 'NA') for h in headers]
+              out.write('\\t'.join(row) + '\\n')
+
+      print(f'Generated QC summary for {len(data)} samples')
+  else:
+      # Create empty file if no logs found
+      with open('star_alignment_qc_summary.tsv', 'w') as out:
+          out.write('No log files found\\n')
+  """
+}
+
 // =====================
 // Workflow
 // =====================
@@ -199,11 +302,16 @@ workflow {
     def genome_index = STAR_BUILD_INDEX().index
     STAR_ALIGN(fastq_ch, genome_index)
   }
+
+  // Collect all log files and generate QC report
+  def all_logs = STAR_ALIGN.out.log.collect()
+  GENERATE_QC_REPORT(all_logs)
 }
 
 workflow.onComplete {
   println(workflow.success ? "Pipeline finished! BAM files in ${outdir}/aligned_bam/" : "Pipeline failed - check logs/workDir.")
   if (workflow.success) {
-    println("Next step: Run junction analysis using splicing_junction.sum_stat.nf with --bam_dir ${outdir}/aligned_bam")
+    println("QC summary: ${outdir}/star_alignment_qc_summary.tsv")
+    println("Next step: Review QC metrics, then run junction analysis using splicing_junction.sum_stat.nf with --bam_dir ${outdir}/aligned_bam")
   }
 }
