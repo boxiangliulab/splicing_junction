@@ -82,7 +82,7 @@ Please download singularity images and gene annotation file from [Zenodo](https:
 ```
 cd 1_splicing_junction
 wget https://zenodo.org/records/18843234/files/eQTLGen_splicing_junction_v2.tar.gz
-wget https://zenodo.org/records/18067033/files/eQTLGen_splicing_junction_v2.tar.gz.md5
+wget https://zenodo.org/records/18843234/files/eQTLGen_splicing_junction_v2.tar.gz.md5
 # This should print eQTLGen_splicing_junction_v2.tar.gz: OK
 md5sum -c eQTLGen_splicing_junction_v2.tar.gz.md5
 ```
