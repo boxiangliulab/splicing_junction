@@ -4,7 +4,7 @@
 #PBS -l walltime=02:00:00
 #PBS -N eQTLGen_splicing_strandness
 #PBS -j oe
-#PBS -o prepare/strandness.log
+#PBS -o 2_strandness
 
 # Please include make sure squashfs can be used
 #module load squashfs/4.4
@@ -21,7 +21,7 @@ BED=${ROOT}/data/gencode.v48.annotation.bed12
 
 # If you run the star alignment pipeline, use the default output folder 
 BAM_DIR=${BAM_OUTPUT_DIR}/aligned_bam
-# Otherwise, specify your BAM file directory
+# Otherwise, SPECIFY your BAM file directory
 #BAM_DIR=[your BAM file directory]
 
 

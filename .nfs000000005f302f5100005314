@@ -167,7 +167,7 @@ process STAR_ALIGN {
 
   input:
     tuple val(sample), path(reads)
-    path genome_index
+    val genome_index
 
   output:
     path "${sample}.bam", emit: bam

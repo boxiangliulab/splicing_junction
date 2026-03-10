@@ -4,7 +4,7 @@
 #PBS -l nodes=1:ppn=1
 #PBS -l mem=8gb
 #PBS -m bea
-#PBS -N 0_star_alignment
+#PBS -N 1_star_alignment
 
 # These are needed modules in UT HPC to get singularity and Nextflow running.
 # Replace with appropriate ones for your HPC.
@@ -34,10 +34,15 @@ mkdir -p logs
 # settings
 # =========================================================
 
+# Reference genome files
+GENOME_FASTA=../data/GRCh38.primary_assembly.genome.fa.gz
+GENOME_GTF=../data/gencode.v48.annotation.gtf
+
 nextflow_path=../../tools
-STAR_CONTAINER=../singularity_img/eqtlgen_splicing_star_v1.sif 
+STAR_CONTAINER=../singularity_img/eqtlgen_splicing_star_v1.sif
 BAM_OUTPUT_DIR=../output/bam_alignment  # intermediate BAM output directory
 
+# PLEASE SPECIFY 
 FASTQ_DIR=[path to directory containing paired-end FASTQ files]
 READ_LENGTH=[read length, e.g. 150 for PE150]  # sjdbOverhang = READ_LENGTH - 1
 
@@ -46,6 +51,8 @@ NXF_VER=21.10.6 ${nextflow_path}/nextflow run star_alignment.nf \
   --fastq_dir      ${FASTQ_DIR} \
   --outdir         ${BAM_OUTPUT_DIR} \
   --container      ${STAR_CONTAINER} \
+  --genome_fasta   ${GENOME_FASTA} \
+  --genome_gtf     ${GENOME_GTF} \
   --read_length    ${READ_LENGTH} \
   -profile pbs,singularity \
   -resume \
@@ -54,12 +61,13 @@ NXF_VER=21.10.6 ${nextflow_path}/nextflow run star_alignment.nf \
   -with-timeline logs/star_alignment_timeline.html
 
 # =========================================================
-# Optional FASTQ mode parameters 
+# Optional FASTQ mode parameters
 # =========================================================
-#   --fastq_pattern    '*_R{1,2}*.fastq.gz'   # default; adjust if filenames differ
-#   --star_genome_dir  /references/hg38/assembly/STAR_GRCh38_gencode_v49  # default
-#   --star_threads     16                      # default
-#   --star_memory_gb   64                      # default
+#   --fastq_pattern       '*_R{1,2}*.fastq.gz'   # default; adjust if filenames differ
+#   --star_threads        16                      # default
+#   --star_memory_gb      40                      # default
+#   --use_prebuilt_index  false                   # set to true to use pre-built index
+#   --star_genome_dir     /path/to/prebuilt/index # required if use_prebuilt_index=true
 
 
 # =========================================================

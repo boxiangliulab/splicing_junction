@@ -4,7 +4,7 @@
 #PBS -l nodes=1:ppn=1
 #PBS -l mem=8gb
 #PBS -m bea
-#PBS -N 1_splicing_junction
+#PBS -N 3_splicing_junction
 
 # These are needed modules in UT HPC to get singularity and Nextflow running.
 # Replace with appropriate ones for your HPC.
